@@ -1,0 +1,146 @@
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+
+NeuroTrap — AI-Powered Smart Honeypot Detection System
+for Adaptive Intrusion Detection and Attacker Profiling
+
+Copyright (c) 2026 Bedde K Samarasinghe
+Plymouth Index: 10953243
+BSc (Hons) Computer Security — PUSL3190 Final Year Project
+University of Plymouth (Delivered via NSBM Green University, Sri Lanka)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LICENSE SUMMARY
+
+This work is licensed under the Creative Commons
+Attribution-NonCommercial-NoDerivatives 4.0 International License.
+
+You are FREE to:
+
+  Share — Copy and redistribute this material in any medium or format,
+           for any non-commercial purpose, with proper attribution.
+
+Under the FOLLOWING TERMS:
+
+  Attribution     — You must give appropriate credit to Bedde K Samarasinghe
+                    as the original author, provide a link to this license,
+                    and clearly indicate if any changes were made. You may do
+                    so in any reasonable manner, but not in any way that
+                    suggests the licensor endorses you or your use.
+
+  NonCommercial   — You may NOT use this material for commercial purposes.
+                    This includes, but is not limited to: selling the software,
+                    incorporating it into commercial products, deploying it as
+                    a paid service, or using it to generate direct revenue.
+
+  NoDerivatives   — If you remix, transform, or build upon this material,
+                    you may NOT distribute the modified or derivative work
+                    without explicit written permission from the author.
+                    Academic research that internally builds upon this work
+                    is permitted, but public redistribution of derivatives
+                    requires prior written consent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WHAT IS PERMITTED (WITHOUT ADDITIONAL PERMISSION):
+
+  ✓ Viewing, studying, and running this software for personal, educational,
+    or non-commercial research purposes
+  ✓ Citing this work in academic papers, theses, and research publications
+    with proper attribution
+  ✓ Sharing the original, unmodified repository link with attribution
+  ✓ Forking the repository on GitHub for personal study only (not for
+    redistribution of modified versions)
+  ✓ Using this work as a reference or benchmark in non-commercial research
+
+WHAT REQUIRES WRITTEN PERMISSION FROM THE AUTHOR:
+
+  ✗ Any commercial use, deployment, or monetisation
+  ✗ Distributing modified or derivative versions publicly
+  ✗ Incorporating any part of this codebase into other software projects
+    intended for redistribution
+  ✗ Using the NeuroTrap name, branding, or methodology in products or
+    services without authorisation
+  ✗ Publishing academic papers that include direct reproductions of the
+    XGBoost or DQN model architectures, training methodologies, or
+    reward functions described herein as original contributions
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NOVEL CONTRIBUTIONS PROTECTED UNDER THIS LICENSE:
+
+This license protects the following original intellectual contributions
+of this work, each of which is an original research contribution:
+
+  1. The closed-loop two-stage AI architecture integrating a real-time
+     XGBoost attacker profiler with a DQN adaptive deception agent.
+
+  2. The state-conditioned reward function using live XGBoost probability
+     outputs (P(bot), P(sk), P(adv)) as dynamic reward multipliers for the
+     DQN policy — not previously described in published literature.
+
+  3. The curiosity-driven per-action intrinsic exploration bonus applied
+     to honeypot deception policy training.
+
+  4. The action synergy chain mechanism: delay_response → change_filesystem
+     → inject_fake_data cascading reward structure.
+
+  5. The multi-source honeypot preprocessing pipeline merging 8 heterogeneous
+     data sources into a unified 45-feature schema across 32,971,269 samples.
+
+  6. The three-version iterative DQN training methodology with documented
+     policy collapse diagnosis and theoretical analysis.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ATTRIBUTION REQUIREMENT — HOW TO CITE THIS WORK:
+
+  If you use, reference, or cite NeuroTrap in academic or research work,
+  please use the following attribution format:
+
+  APA:
+    Samarasinghe, B. K. (2026). NeuroTrap: AI-Powered Smart Honeypot
+    Detection System for Adaptive Intrusion Detection and Attacker Profiling
+    [Final Year Project]. University of Plymouth.
+    https://github.com/[your-username]/neurotrap
+
+  BibTeX:
+    @misc{samarasinghe2026neurotrap,
+      author    = {Samarasinghe, Bedde K.},
+      title     = {NeuroTrap: AI-Powered Smart Honeypot Detection System
+                   for Adaptive Intrusion Detection and Attacker Profiling},
+      year      = {2026},
+      publisher = {GitHub},
+      url       = {https://github.com/[your-username]/neurotrap},
+      note      = {BSc (Hons) Computer Security, University of Plymouth,
+                   PUSL3190 Final Year Project}
+    }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DISCLAIMER:
+
+  THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL
+  THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN
+  AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF, OR IN
+  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  NeuroTrap is a research prototype developed for academic purposes. It is
+  NOT intended for deployment in production environments without appropriate
+  security review, hardening, and authorisation from a qualified professional.
+  The author accepts no responsibility for any misuse of this software.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONTACT FOR PERMISSIONS:
+
+  For commercial licensing, derivative work permissions, or collaboration
+  enquiries, contact the author directly via GitHub Issues or the contact
+  information provided in the repository profile.
+
+Full legal text of CC BY-NC-ND 4.0:
+https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
