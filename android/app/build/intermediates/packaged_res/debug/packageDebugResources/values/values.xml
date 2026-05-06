@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firebase_database_url" translatable="false">https://neurotrap2026-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+    <string name="gcm_defaultSenderId" translatable="false">1014569267807</string>
+    <string name="google_api_key" translatable="false">AIzaSyA3_AMTjrV4UpYl40rXK3tgpSbQ1P1PkyY</string>
+    <string name="google_app_id" translatable="false">1:1014569267807:android:e12644cc75ee49b57d61ea</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA3_AMTjrV4UpYl40rXK3tgpSbQ1P1PkyY</string>
+    <string name="google_storage_bucket" translatable="false">neurotrap2026.firebasestorage.app</string>
+    <string name="project_id" translatable="false">neurotrap2026</string>
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>
