@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/logo.png" alt="NeuroTrap Logo" width="180"/>
+<img src="assets/images/logo.png" alt="NeuroTrap Logo" width="180"/>
 
 # NeuroTrap
 ### AI-Powered Smart Honeypot Detection System
