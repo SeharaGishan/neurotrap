@@ -74,7 +74,7 @@ class _LandingScreenState extends State<LandingScreen>
                   padding: EdgeInsets.only(bottom: size.height * 0.12),
                   child: AnimatedBuilder(
                     animation: _controller,
-                    builder: (_, __) => FadeTransition(
+                    builder: (_, _) => FadeTransition(
                       opacity: _logoFade,
                       child: ScaleTransition(
                         scale: _logoScale,
@@ -93,7 +93,7 @@ class _LandingScreenState extends State<LandingScreen>
                 right: 0,
                 child: AnimatedBuilder(
                   animation: _controller,
-                  builder: (_, __) => FadeTransition(
+                  builder: (_, _) => FadeTransition(
                     opacity: _buttonFade,
                     child: Center(child: _GlassStartButton()),
                   ),
