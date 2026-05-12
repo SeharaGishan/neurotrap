@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/landing/landing_screen.dart';
+import 'screens/auth/sign_in_screen.dart';
+import 'screens/auth/sign_up_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +26,13 @@ class NeuroTrapApp extends StatelessWidget {
         brightness: Brightness.dark,
         fontFamily: 'KdamThmorPro',
       ),
-      // Start directly on Landing for now
-      home: const LandingScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LandingScreen(),
+        '/sign-in': (context) => const SignInScreen(),
+        '/sign-up': (context) => const SignUpScreen(),
+        // '/verify' and '/home' will be added next
+      },
     );
   }
 }

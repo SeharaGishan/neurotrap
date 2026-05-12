@@ -60,4 +60,5 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://neurotrap-2026-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'neurotrap-2026.firebasestorage.app',
   );
+
 }

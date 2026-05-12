@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/services/auth_service.dart';
+import '../../core/services/firestore_service.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen>
+class _SignUpScreenState extends State<SignUpScreen>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final _authService = AuthService();
+  final _firestoreService = FirestoreService();
 
   bool _obscurePassword = true;
+  bool _obscureConfirm = true;
   bool _isLoading = false;
   String? _errorMessage;
 
@@ -40,22 +45,48 @@ class _SignInScreenState extends State<SignInScreen>
   @override
   void dispose() {
     _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _animController.dispose();
     super.dispose();
   }
 
-  Future<void> _signIn() async {
+  Future<void> _signUp() async {
     setState(() => _errorMessage = null);
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      await _authService.signIn(
+      // 1 — Create Firebase Auth user
+      final credential = await _authService.signUp(
         email: _emailController.text,
         password: _passwordController.text,
+        username: _usernameController.text,
       );
+
+      // 2 — Store user data in Firestore
+      await _firestoreService.createUser(
+        uid: credential.user!.uid,
+        email: _emailController.text.trim(),
+        username: _usernameController.text.trim(),
+      );
+
+      // 3 — Navigate to verification screen
+      if (mounted) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/verify',
+          arguments: {
+            'email': _emailController.text.trim(),
+            'username': _usernameController.text.trim(),
+            'isSignUp': true,
+          },
+        );
+      }
     } on FirebaseAuthException catch (e) {
       setState(() => _errorMessage = _authService.getErrorMessage(e.code));
+    } catch (e) {
+      setState(() => _errorMessage = 'An error occurred. Please try again.');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -97,10 +128,10 @@ class _SignInScreenState extends State<SignInScreen>
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
-                      // ── SIGN IN title at top ─────────────────────────
+                      // ── SIGN UP title ──────────────────────────────────
                       SizedBox(height: size.height * 0.09),
                       const Text(
-                        'SIGN IN',
+                        'SIGN UP',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'KdamThmorPro',
@@ -111,10 +142,9 @@ class _SignInScreenState extends State<SignInScreen>
                         ),
                       ),
 
-                      // ── Push card to vertical center ─────────────────
                       const Spacer(flex: 1),
 
-                      // ── Glass card ───────────────────────────────────
+                      // ── Glass card ─────────────────────────────────────
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: size.width * 0.1,
@@ -122,10 +152,9 @@ class _SignInScreenState extends State<SignInScreen>
                         child: _buildGlassCard(size),
                       ),
 
-                      // ── Gap between card and Google button ───────────
-                      SizedBox(height: size.height * 0.1),
+                      SizedBox(height: size.height * 0.05),
 
-                      // ── Google button ────────────────────────────────
+                      // ── Google button ──────────────────────────────────
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: size.width * 0.09,
@@ -133,7 +162,6 @@ class _SignInScreenState extends State<SignInScreen>
                         child: _buildGoogleButton(),
                       ),
 
-                      // ── Bottom spacer ────────────────────────────────
                       const Spacer(flex: 1),
                     ],
                   ),
@@ -176,7 +204,7 @@ class _SignInScreenState extends State<SignInScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // ── E-mail label ───────────────────────────────────────
+              // ── E-mail ──────────────────────────────────────────────
               const Text(
                 'E-mail',
                 textAlign: TextAlign.center,
@@ -188,11 +216,8 @@ class _SignInScreenState extends State<SignInScreen>
                 ),
               ),
               const SizedBox(height: 6),
-
-              // ── E-mail field ───────────────────────────────────────
               _buildInputField(
                 controller: _emailController,
-                hint: '',
                 keyboardType: TextInputType.emailAddress,
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) {
@@ -205,7 +230,34 @@ class _SignInScreenState extends State<SignInScreen>
 
               SizedBox(height: size.height * 0.028),
 
-              // ── Password label ─────────────────────────────────────
+              // ── UserName ────────────────────────────────────────────
+              const Text(
+                'UserName',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'KdamThmorPro',
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 6),
+              _buildInputField(
+                controller: _usernameController,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Username is required';
+                  }
+                  if (v.trim().length < 3) {
+                    return 'Minimum 3 characters';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: size.height * 0.028),
+
+              // ── Password ────────────────────────────────────────────
               const Text(
                 'Password',
                 textAlign: TextAlign.center,
@@ -217,11 +269,8 @@ class _SignInScreenState extends State<SignInScreen>
                 ),
               ),
               const SizedBox(height: 6),
-
-              // ── Password field ─────────────────────────────────────
               _buildInputField(
                 controller: _passwordController,
-                hint: '',
                 obscureText: _obscurePassword,
                 suffixIcon: GestureDetector(
                   onTap: () =>
@@ -244,14 +293,56 @@ class _SignInScreenState extends State<SignInScreen>
                 },
               ),
 
+              SizedBox(height: size.height * 0.028),
+
+              // ── Confirm Password ────────────────────────────────────
+              const Text(
+                'Confirm Password',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'KdamThmorPro',
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 6),
+              _buildInputField(
+                controller: _confirmPasswordController,
+                obscureText: _obscureConfirm,
+                suffixIcon: GestureDetector(
+                  onTap: () =>
+                      setState(() => _obscureConfirm = !_obscureConfirm),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Icon(
+                      _obscureConfirm
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: const Color(0xFF5A7A90),
+                      size: 18,
+                    ),
+                  ),
+                ),
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return 'Please confirm your password';
+                  }
+                  if (v != _passwordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
+
               SizedBox(height: size.height * 0.026),
 
-              // ── Don't have an account ──────────────────────────────
+              // ── Already have an account ─────────────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account? ",
+                    'Already have an account? ',
                     style: TextStyle(
                       fontFamily: 'KdamThmorPro',
                       fontSize: 11,
@@ -260,9 +351,9 @@ class _SignInScreenState extends State<SignInScreen>
                   ),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacementNamed(
-                        context, '/sign-up'),
+                        context, '/sign-in'),
                     child: const Text(
-                      'Sign Up',
+                      'Sign In',
                       style: TextStyle(
                         fontFamily: 'KdamThmorPro',
                         fontSize: 11,
@@ -274,7 +365,7 @@ class _SignInScreenState extends State<SignInScreen>
                 ],
               ),
 
-              // ── Error ──────────────────────────────────────────────
+              // ── Error ───────────────────────────────────────────────
               if (_errorMessage != null) ...[
                 const SizedBox(height: 8),
                 Text(
@@ -290,8 +381,8 @@ class _SignInScreenState extends State<SignInScreen>
 
               SizedBox(height: size.height * 0.032),
 
-              // ── Sign In button ─────────────────────────────────────
-              _buildSignInButton(),
+              // ── Sign Up button ──────────────────────────────────────
+              _buildSignUpButton(),
             ],
           ),
         ),
@@ -301,7 +392,6 @@ class _SignInScreenState extends State<SignInScreen>
 
   Widget _buildInputField({
     required TextEditingController controller,
-    required String hint,
     bool obscureText = false,
     Widget? suffixIcon,
     TextInputType? keyboardType,
@@ -319,12 +409,7 @@ class _SignInScreenState extends State<SignInScreen>
       ),
       validator: validator,
       decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(
-          fontFamily: 'KdamThmorPro',
-          fontSize: 13,
-          color: Color(0xFF8AAABB),
-        ),
+        hintText: '',
         suffixIcon: suffixIcon,
         suffixIconConstraints:
         const BoxConstraints(minWidth: 40, minHeight: 40),
@@ -368,9 +453,9 @@ class _SignInScreenState extends State<SignInScreen>
     );
   }
 
-  Widget _buildSignInButton() {
+  Widget _buildSignUpButton() {
     return GestureDetector(
-      onTap: _isLoading ? null : _signIn,
+      onTap: _isLoading ? null : _signUp,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 80),
         width: double.infinity,
@@ -410,7 +495,7 @@ class _SignInScreenState extends State<SignInScreen>
             ),
           )
               : const Text(
-            'Sign In',
+            'Sign Up',
             style: TextStyle(
               fontFamily: 'KdamThmorPro',
               fontSize: 14,
@@ -448,7 +533,7 @@ class _SignInScreenState extends State<SignInScreen>
             ),
             const SizedBox(width: 12),
             const Text(
-              'Sign in with Google',
+              'Sign up with Google',
               style: TextStyle(
                 fontFamily: 'KdamThmorPro',
                 fontSize: 12,
