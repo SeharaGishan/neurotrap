@@ -59,9 +59,10 @@ class _AlertsScreenState extends State<AlertsScreen>
         Uri.parse('$_osBase/_plugins/_ppl'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'query':
-          'source=$_sessionIndex | fields timestamp, src_ip, '
-          'predicted_class, confidence, dqn_action, command_count '
-          '| sort - timestamp | head 50'}),
+          'source=$_sessionIndex'
+          ' | sort - timestamp'
+          ' | head 100'
+          ' | fields timestamp, src_ip, predicted_class, confidence, dqn_action, command_count'}),
       ).timeout(const Duration(seconds: 8));
 
       if (r.statusCode == 200) {
@@ -89,6 +90,7 @@ class _AlertsScreenState extends State<AlertsScreen>
     switch (cls) {
       case 'advanced_adversary': return _aptColor;
       case 'script_kiddie':      return _skColor;
+      case 'automated_bot':      return _botColor;
       default:                   return _botColor;
     }
   }
@@ -98,7 +100,7 @@ class _AlertsScreenState extends State<AlertsScreen>
       case 'advanced_adversary': return 'APT';
       case 'script_kiddie':      return 'Script Kiddie';
       case 'automated_bot':      return 'Bot';
-      default:                   return cls ?? 'Unknown';
+      default:                   return 'Bot';
     }
   }
 
@@ -118,7 +120,7 @@ class _AlertsScreenState extends State<AlertsScreen>
       final slt = utc.add(const Duration(hours: 5, minutes: 30));
       return slt.day.toString().padLeft(2,'0') + '-' +
              slt.month.toString().padLeft(2,'0') + '-' +
-             slt.year.toString() + ' ' +
+             slt.year.toString() + '  ' +
              slt.hour.toString().padLeft(2,'0') + ':' +
              slt.minute.toString().padLeft(2,'0');
     } catch (_) {
