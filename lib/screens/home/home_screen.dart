@@ -276,8 +276,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> _fetchDeceptionActions() async {
     final r = await _ppl(
-      'source=$_sessionIndex | fields timestamp, dqn_action, predicted_class, src_ip'
-      ' | sort - timestamp | head 8');
+      'source=$_sessionIndex | where predicted_class = \'script_kiddie\' or predicted_class = \'advanced_adversary\' | sort - timestamp | head 10 | fields timestamp, dqn_action, predicted_class, src_ip');
     if (mounted && r != null) {
       final schema = r['schema'] as List?;
       final rows   = r['datarows'] as List?;
